@@ -1,7 +1,7 @@
-package me.dio.sdw24.adapters.out;
+package ferper.rafael.sdw24.adapters.out;
 
-import me.dio.sdw24.domain.model.Champion;
-import me.dio.sdw24.domain.ports.ChampionsRepository;
+import ferper.rafael.sdw24.domain.model.Champions;
+import ferper.rafael.sdw24.domain.ports.ChampionsRepository;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
@@ -13,11 +13,11 @@ import java.util.Optional;
 public class ChampionsJdbcRepository implements ChampionsRepository {
 
     private final JdbcTemplate jdbcTemplate;
-    private final RowMapper<Champion> championsRowMapper;
+    private final RowMapper<Champions> rowMapper;
 
     public ChampionsJdbcRepository(JdbcTemplate jdbcTemplate) {
         this.jdbcTemplate = jdbcTemplate;
-        this.championsRowMapper = (rs, rowNum) -> new Champion(
+        this.rowMapper = (rs, rowNum) -> new Champions(
                 rs.getLong("id"),
                 rs.getString("name"),
                 rs.getString("role"),
@@ -27,14 +27,14 @@ public class ChampionsJdbcRepository implements ChampionsRepository {
     }
 
     @Override
-    public List<Champion> findAll() {
-        return jdbcTemplate.query("SELECT * FROM CHAMPIONS", championsRowMapper);
+    public List<Champions> findAll() {
+        return jdbcTemplate.query("SELECT * FROM CHAMPIONS", rowMapper);
     }
 
     @Override
-    public Optional<Champion> findById(Long id) {
+    public Optional<Champions> findById(Long id) {
         String sql = "SELECT * FROM CHAMPIONS WHERE ID = ?";
-        List<Champion> champions = jdbcTemplate.query(sql, championsRowMapper, id);
-        return champions.stream().findFirst();
+        Champions champion = jdbcTemplate.queryForObject(sql, rowMapper, id);
+        return Optional.ofNullable(champion);
     }
 }
