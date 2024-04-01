@@ -1,6 +1,6 @@
 package ferper.rafael.sdw24.application;
 
-import ferper.rafael.sdw24.domain.model.Champions;
+import ferper.rafael.sdw24.domain.model.Champion;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +15,7 @@ public class ListChampionUseCaseIntegrationTest {
 
     @Test
     public void testListChampions() {
-        List<Champions> champions = listChampionsUseCase.findAll();
+        List<Champion> champions = listChampionsUseCase.findAll();
 
         Assertions.assertEquals(12, champions.size());
     }
