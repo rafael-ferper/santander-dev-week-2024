@@ -13,6 +13,7 @@ import java.util.List;
 @RequestMapping("/champions")
 public record ListChampionsRestController(ListChampionsUseCase useCase) {
 
+    @CrossOrigin
     @GetMapping
     public List<Champion> findAllChampions() {
         return useCase.findAll();
